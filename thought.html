@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>"Ехо - Введіть свої думки"</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #005F73, #EE9B00);
+            color: #fff;
+            text-align: center;
+            background-image: url('https://art.pixilart.com/sr21e29f92088aws3.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .logo {
+            width: 150px;
+            margin-bottom: 20px;
+            animation: floatLogo 3s infinite ease-in-out;
+        }
+
+        @keyframes floatLogo {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .input-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .input-label {
+            font-size: 2rem;
+            color: #FFECCC;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .input-box {
+            width: 70%;
+            height: 50px;
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #FFECCC;
+            border-radius: 8px;
+            background-color: #fff;
+            color: #333;
+            resize: none;
+            font-family: 'Press Start 2P', cursive;
+            margin-bottom: 20px;
+        }
+
+        .thought-box {
+            height: 100px;
+        }
+
+        .next-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #C8CFC6;
+            background-color: #966F6F;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .next-button:hover {
+            background-color: #7594A1;
+        }
+
+        @media (max-width: 600px) {
+            .thought-box {
+                height: 100px;
+            }
+
+            .next-button {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="images/logo.png" alt="Ваше Ехо Логотип" class="logo">
+
+    <div class="input-container">
+        <label for="nickname" class="input-label">Введіть свій нікнейм</label>
+        <textarea id="nickname" class="input-box" placeholder="Ваш нікнейм..."></textarea>
+
+        <label for="thoughts" class="input-label">Введіть свої думки</label>
+        <textarea id="thoughts" class="input-box thought-box" placeholder="Текст з думками..."></textarea>
+
+        <button class="next-button" onclick="saveThoughts()">Наступний крок</button>
+    </div>
+
+    <script>
+        function saveThoughts() {
+            const nickname = document.getElementById('nickname').value;
+            const thoughts = document.getElementById('thoughts').value;
+
+            if (nickname.trim() && thoughts.trim()) {
+                fetch('thoughtphp/save_thoughts.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `nickname=${encodeURIComponent(nickname)}&thoughts=${encodeURIComponent(thoughts)}`,
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`Сервер відповів із кодом ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then((data) => {
+                        alert(data);
+                        location.href = 'next-step.html';
+                    })
+                    .catch((error) => {
+                        alert('Сталася помилка при збереженні даних: ' + error.message);
+                    });
+            } else {
+                alert('Будь ласка, введіть свій нікнейм і думки!');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>"Ехо"</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #005F73, #EE9B00);
+            color: #fff;
+            text-align: center;
+            background-image: url('https://art.pixilart.com/sr21e29f92088aws3.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .logo {
+            width: 200px;
+            margin-bottom: 10px;
+              animation: floatLogo 3s infinite ease-in-out; 
+        }
+        @keyframes floatLogo {
+    0% {
+        transform: translateY(0); /* Початкова позиція */
+    }
+    50% {
+        transform: translateY(20px); /* Рух вниз */
+    }
+    100% {
+        transform: translateY(0); /* Повернення вгору */
+    }
+}
+
+.app-name {
+    font-size: 7em;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    color: #FFECCC; /* Основний колір тексту */
+    text-shadow: 
+        6px 6px 0 #906989,  /* Тінь знизу праворуч */
+        -6px 6px 0 #906989, /* Тінь знизу ліворуч */
+        6px -6px 0 #906989, /* Тінь зверху праворуч */
+        -6px -6px 0 #906989; /* Тінь зверху ліворуч */
+}
+
+        .cta-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #C8CFC6;
+            background-color: #966F6F;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .cta-button:hover {
+            background-color: #7594A1;
+        }
+    
+@media (max-width: 600px) {
+    .cta-button {
+        padding: 10px 20px; /* Менший відступ */
+        font-size: 1rem;   /* Зменшений текст */
+        border-radius: 5px; /* Менше округлення */
+    }
+}
+    </style>
+</head>
+<body>
+  <img src="images/logo.png" alt="Ваше Ехо Логотип" class="logo">
+
+
+    <div class="app-name">ехо</div>
+    <button class="cta-button" onclick="location.href='page2.html'">Розкажи нам власне ехо</button>
+    
+</body>
+</html>
