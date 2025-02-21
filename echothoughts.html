@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Думки</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            background: url('images/wall.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .thoughts-slider {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 90%;
+            padding: 20px 0;
+            position: relative;
+            animation: slideThoughts 6s infinite alternate ease-in-out;
+        }
+
+        @keyframes slideThoughts {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .thought-container {
+            background-color: rgba(56, 52, 56, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 10px 0;
+            width: 90%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .thought-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .thought-text {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .thought-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #C4AFC1;
+            flex-direction: column; /* Оновлено */
+        }
+
+        .thought-meta .category {
+            background-color: #C4AFC1;
+            color: #383438;
+            padding: 5px 20px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .thought-meta .mood {
+            font-size: 0.8rem;
+        }
+
+        .logo {
+            position: absolute;
+            top: 0;
+            right: 10px;
+            width: 100px;
+            height: 100px;
+            background: url('images/logo.png') no-repeat center center;
+            background-size: contain;
+            animation: moveCloud 15s linear infinite;
+            cursor: pointer;
+        }
+
+        .logo::after {
+            content: 'додаси щось — тицяй';
+            position: absolute;
+            top: -30px;
+            left: 15%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #FFFFFF;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px 10px;
+            border-radius: 10px;
+            white-space: nowrap;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        @keyframes moveCloud {
+            0% {
+                top: -10%;
+            }
+            100% {
+                top: 100%;
+            }
+        }
+
+        .heart {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 32px;
+            height: 32px;
+            background: url('https://cdn-icons-png.flaticon.com/128/17431/17431878.png') no-repeat center center;
+            background-size: cover;
+            cursor: pointer;
+            filter: brightness(0.8);
+            transition: filter 0.3s;
+        }
+
+        .heart.liked {
+            filter: brightness(1.5);
+        }
+
+        @media (max-width: 600px) {
+            .thought-container {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .thought-text {
+                font-size: 0.8rem;
+            }
+
+            .thought-meta {
+                font-size: 0.7rem;
+            }
+
+            .heart {
+                width: 24px;
+                height: 24px;
+                bottom: 5px;
+                left: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thoughts-slider" id="thoughts">
+        <!-- Думки будуть згенеровані тут -->
+    </div>
+
+    <div class="logo" onclick="redirectToPage()"></div>
+
+    <script>
+        const thoughts = [
+            "Сьогодні я прочитав дивовижну книгу!",
+            "Пробіг 5 км і почуваюсь чудово!",
+            "Подорож до Карпат була неймовірною!",
+            "Мій день був сповнений несподіванок.",
+            "Ця книга змусила мене замислитись.",
+            "Спорт — це життя!",
+            "Подорожі розширюють світогляд.",
+            "Сьогодні я багато чого досягнув!"
+        ];
+
+        const categories = ["Книги", "Спорт", "Подорожі", "Мій день"];
+
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function getRandomMood() {
+            return Math.floor(Math.random() * 10) + 1;
+        }
+
+        function generateThoughts() {
+            const container = document.getElementById('thoughts');
+
+            thoughts.forEach((thought, index) => {
+                const category = getRandomElement(categories);
+                const mood = getRandomMood();
+                const nick = `Користувач${index + 1}`;
+
+                const thoughtHTML = `
+                    <div class="thought-container">
+                        <p class="thought-text">${thought}</p>
+                        <div class="thought-meta">
+                            <span class="nick">${nick}</span>
+                            <span class="mood">Настрій: ${mood}/10</span> <!-- Переміщено -->
+                            <span class="category">${category}</span>
+                        </div>
+                        <div class="heart" onclick="toggleHeart(this)"></div>
+                    </div>
+                `;
+
+                container.innerHTML += thoughtHTML;
+            });
+        }
+
+        function toggleHeart(heartElement) {
+            heartElement.classList.toggle('liked');
+        }
+
+        function redirectToPage() {
+            window.location.href = "b.html";
+        }
+
+        generateThoughts();
+    </script>
+</body>
+</html>
